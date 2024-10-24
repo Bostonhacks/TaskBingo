@@ -3,18 +3,6 @@ const { Client, IntentsBitField } = require('discord.js');
 const mongoose = require('mongoose');
 const path = require('path');
 const { CommandHandler } = require('djs-commander');
-const express = require('express')
-
-const app = express();
-const PORT = process.env.PORT || 4000;
-
-app.get('/', (req, res) => {
-  res.send('Hello from TaskBingo!');
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
 const client = new Client({
   intents: [
