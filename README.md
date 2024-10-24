@@ -2,6 +2,9 @@
 
 TaskBingo is a discord bot developed with discord.js that allows for the creation and assignment of bingo boards to users. It is used for the BostonHacks discord to keep track and mark different hackers' tasks as done.
 
+## Installation
+The bot can be installed with this [link](https://discord.com/oauth2/authorize?client_id=1298116609642070047). As of right now, data is shared across servers (this will be updated in the future).
+
 ## Commands
 - assign-board (board-name, role)
     - Assigns a board with *board-name* to a role *role*
