@@ -16,4 +16,10 @@ const permissionSchema = new Schema({
       },
 });
 
-module.exports = model('Permission', permissionSchema);
+// module.exports = model('Permission', permissionSchema);
+
+const getPermissionModel = (connection) => {
+    return connection.model('Permission', permissionSchema);
+  };
+  
+module.exports = getPermissionModel

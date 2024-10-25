@@ -1,7 +1,9 @@
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 
-const Bingo = require('../../models/Bingo');
-const Permission = require('../../models/Permission');
+const {getDatabaseConnection} = require('../../dbConnectionManager');
+const getBingoCardModel = require('../../models/Bingo');
+const getPermissionModel = require('../../models/Permission');
+
 
 module.exports = {
 
@@ -15,6 +17,10 @@ module.exports = {
 
     try {
       await interaction.deferReply();
+
+      const connection = await getDatabaseConnection(interaction.guild.id);
+      const Bingo = getBingoCardModel(connection)
+      const Permission = getPermissionModel(connection)
       
       const query = {
         name: interaction.options.get('board-name').value

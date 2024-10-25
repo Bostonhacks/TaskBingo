@@ -19,4 +19,10 @@ const user = new Schema({
   }
 });
 
-module.exports = model('User', user);
+// module.exports = model('User', user);
+
+const getUserModel = (connection) => {
+  return connection.model('User', user);
+};
+
+module.exports = getUserModel

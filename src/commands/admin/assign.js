@@ -1,8 +1,9 @@
 const { ApplicationCommandOptionType, PermissionFlagsBits, AttachmentBuilder, EmbedBuilder } = require('discord.js');
 
-const Bingo = require('../../models/Bingo');
-const Permission = require('../../models/Permission');
-const User = require('../../models/User');
+const {getDatabaseConnection} = require('../../dbConnectionManager');
+const getBingoCardModel = require('../../models/Bingo');
+const getPermissionModel = require('../../models/Permission');
+const getUserModel = require('../../models/User');
 
 const fs = require('fs')
 const path = require('path')
@@ -82,6 +83,11 @@ module.exports = {
 
     const configPath = path.join(__dirname, '../../../config.json');
     const config = loadData(configPath)
+
+    const connection = await getDatabaseConnection(interaction.guild.id);
+    const User = getUserModel(connection)
+    const Bingo = getBingoCardModel(connection)
+    const Permission = getPermissionModel(connection)
 
     try {
       await interaction.deferReply();

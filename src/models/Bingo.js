@@ -15,4 +15,10 @@ const bingoCard = new Schema({
   }
 });
 
-module.exports = model('bingoCard', bingoCard);
+const getBingoCardModel = (connection) => {
+  return connection.model('bingoCard', bingoCard);
+};
+
+module.exports = getBingoCardModel
+
+// module.exports = model('bingoCard', bingoCard);

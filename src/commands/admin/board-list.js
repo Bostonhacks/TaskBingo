@@ -1,5 +1,6 @@
 const { PermissionFlagsBits } = require('discord.js');
-const Bingo = require('../../models/Bingo');
+const {getDatabaseConnection} = require('../../dbConnectionManager');
+const getBingoCardModel = require('../../models/Bingo');
 
 module.exports = {
 
@@ -11,6 +12,9 @@ module.exports = {
   
       try {
         await interaction.deferReply();
+
+        const connection = await getDatabaseConnection(interaction.guild.id);
+        const Bingo = getBingoCardModel(connection)
   
         let allBingos = await Bingo.find();
         if (allBingos && allBingos.length > 0) {

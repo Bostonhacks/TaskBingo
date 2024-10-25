@@ -1,7 +1,8 @@
-const { AttachmentBuilder, EmbedBuilder } = require('discord.js');
-const Permission = require('../../models/Permission');
-const User = require('../../models/User');
-const Bingo = require('../../models/Bingo');
+const { EmbedBuilder } = require('discord.js');
+const { getDatabaseConnection } = require('../../dbConnectionManager'); 
+const getPermissionModel = require('../../models/Permission');
+const getUserModel = require('../../models/User');
+const getBingoCardModel = require('../../models/Bingo');
 const path = require('path');
 const fs = require('fs');
 
@@ -52,6 +53,11 @@ module.exports = async (oldMember, newMember, client) => {
         return
     }
 
+    const connection = await getDatabaseConnection(newMember.guild.id);
+    const Permission = getPermissionModel(connection)
+    const User = getUserModel(connection)
+    const Bingo = getBingoCardModel(connection)
+
     const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
     addedRoles.map(async (role) => {
 
@@ -69,7 +75,6 @@ module.exports = async (oldMember, newMember, client) => {
                         try {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
-                                const bingoBoard = new AttachmentBuilder(bingo.image)
 
                                 newMember.send(`Welcome to BostonHacks 2024 ${newMember.user}! Here's your bingo board:`);
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
@@ -92,7 +97,6 @@ module.exports = async (oldMember, newMember, client) => {
                         try {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
-                                const bingoBoard = new AttachmentBuilder(bingo.image)
 
                                 newMember.send(`Welcome to BostonHacks 2024 ${newMember.user}! Here's your bingo board:`);
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);

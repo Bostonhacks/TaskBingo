@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType, AttachmentBuilder, PermissionFlagsBits} = require('discord.js');
-
-const Bingo = require('../../models/Bingo');
+const { getDatabaseConnection } = require('../../dbConnectionManager')
+const getBingoCardModel = require('../../models/Bingo');
 
 module.exports = {
     data: {
@@ -43,6 +43,9 @@ module.exports = {
         }
             try {
                 await interaction.deferReply();
+
+                const connection = await getDatabaseConnection(interaction.guild.id);
+                const Bingo = getBingoCardModel(connection)
 
                 const query = {
                     name: interaction.options.get('name').value

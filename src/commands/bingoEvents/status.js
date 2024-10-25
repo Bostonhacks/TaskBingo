@@ -1,5 +1,4 @@
 const { Client, ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
-const User = require('../../models/User');
 
 function createTableEmbed(data, bingoCount) {
   const embed = new EmbedBuilder()
@@ -91,6 +90,9 @@ module.exports = {
     try {
 
       await interaction.deferReply();
+
+      const connection = await getDatabaseConnection(interaction.guild.id);
+      const User = getUserModel(connection)
 
       const query = {
         userId: interaction.options.get('user').user.id
