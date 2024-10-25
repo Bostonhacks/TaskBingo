@@ -13,7 +13,7 @@ module.exports = {
         await interaction.deferReply();
   
         let allBingos = await Bingo.find();
-        if (allBingos) {
+        if (allBingos && allBingos.length > 0) {
             const boardList = allBingos.map(board => `- ${board.name} (${board.gridSize} x ${board.gridSize})`).join('\n');
             interaction.editReply((`Here are all the bingo boards:\n${boardList}`));
             return

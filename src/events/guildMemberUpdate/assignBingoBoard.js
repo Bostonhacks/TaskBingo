@@ -2,6 +2,16 @@ const { AttachmentBuilder, EmbedBuilder } = require('discord.js');
 const Permission = require('../../models/Permission');
 const User = require('../../models/User');
 const Bingo = require('../../models/Bingo');
+const path = require('path');
+const fs = require('fs');
+
+function loadData(dataFilePath) {
+    if (fs.existsSync(dataFilePath)) {
+      const data = fs.readFileSync(dataFilePath);
+      return JSON.parse(data); // Return parsed JSON object
+    }
+    return {}; // Return empty object if file doesn't exist
+  }
 
 function createTableEmbed(data, bingoCount, image) {
     const embed = new EmbedBuilder()
@@ -33,6 +43,15 @@ function createBooleanArray(n) {
 }
 
 module.exports = async (oldMember, newMember, client) => {
+
+    const configPath = path.join(__dirname, '../../../config.json');
+    const config = loadData(configPath)
+
+    if (!config[newMember.guild.id]) {
+        console.log("auto assign set to false")
+        return
+    }
+
     const addedRoles = newMember.roles.cache.filter(role => !oldMember.roles.cache.has(role.id));
     addedRoles.map(async (role) => {
 
