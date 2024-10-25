@@ -175,6 +175,8 @@ module.exports = {
                 const dmChannel = await userObj.createDM();
                 const message = await dmChannel.messages.fetch(messageIdHashtable[id]);
                 await message.edit({ embeds: [tableEmbed] })
+                const notif = await dmChannel.send(`${userObj}`)
+                notif.delete()
               })
 
               if (existingUserIds.length > 0) {
