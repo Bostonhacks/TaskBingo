@@ -1,4 +1,6 @@
 const { Client, ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
+const { getDatabaseConnection } = require('../../dbConnectionManager')
+const getUserModel = require('../../models/User');
 
 function createTableEmbed(data, bingoCount) {
   const embed = new EmbedBuilder()
