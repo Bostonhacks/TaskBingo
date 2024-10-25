@@ -14,20 +14,20 @@ function saveData(dataFilePath, data) {
 fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2)); // Write data to file
 }
 
-module.exports = async (client) => {
+module.exports = async (guild, client) => {
     const configPath = path.join(__dirname, '../../../config.json');
 
-    const guildId = client.guilds.cache.last().id;
+    const guildId = guild.id
     
     const config = loadData(configPath);
 
     if (!(guildId in config)) {
         config[guildId] = false;
         saveData(configPath, config)
-        console.log(`Initialized preferences for ${client.guilds.cache.last()}.`)
+        console.log(`Initialized preferences for ${guild}.`)
     }
     else {
-        console.log(`Preferences already exist for ${client.guilds.cache.last()}`)
+        console.log(`Preferences already exist for ${guild}`)
     }
     
     
