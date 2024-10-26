@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType, PermissionFlagsBits, AttachmentBuilder, EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 
 const {getDatabaseConnection} = require('../../dbConnectionManager');
 const getBingoCardModel = require('../../models/Bingo');
@@ -85,9 +85,9 @@ module.exports = {
     const config = loadData(configPath)
 
     const connection = await getDatabaseConnection(interaction.guild.id);
-    const User = getUserModel(connection)
-    const Bingo = getBingoCardModel(connection)
-    const Permission = getPermissionModel(connection)
+    const User = await getUserModel(connection)
+    const Bingo = await getBingoCardModel(connection)
+    const Permission = await getPermissionModel(connection)
 
     try {
       await interaction.deferReply();
@@ -108,23 +108,23 @@ module.exports = {
         };
   
         let permissions = await Permission.findOne(permQuery);
+
         if (permissions) {
           if (permissions.assignedRoles.includes(targetRoleId) && !interaction.options.get('resend').value) {
             interaction.editReply(`${bingo.name} already assigned to <@&${interaction.options.get('role').value}>.`);
             return;
           } else {
-            permissions.assignedRoles.push(targetRoleId)
+            if (!interaction.options.get('resend').value) {
+              permissions.assignedRoles.push(targetRoleId)
+            }
           }
         } else {
-          if (!interaction.options.get('resend').value) {
             permissions = new Permission({
               boardName: bingo.name,
               gridSize: bingo.gridSize,
               assignedRoles: [targetRoleId]
-            });
-          }
+          })
         }
-  
         await permissions.save();
         interaction.editReply(`${bingo.name} assigned to <@&${interaction.options.get('role').value}>.`);
       }
@@ -156,7 +156,7 @@ module.exports = {
               .filter(id => !existingUserIds.includes(id))  // Find non-existing users
               .map(async id => {
                 const member = memberHashtable[id]
-                member.send(`Welcome to BostonHacks 2024 ${member.user}! Here's your bingo board:`);
+                member.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:`);
                 const bingoMessage = await member.send({embeds: [tableEmbed]})
                 return {
                   userId: id,  
@@ -168,7 +168,7 @@ module.exports = {
               // Insert new users if needed
               if (usersToInsert.length > 0) {
                 User.insertMany(usersToInsert);
-                console.log(`Inserted ${usersToInsert.length} users`)
+                console.log(`Inserted ${usersToInsert.length} users for ${interaction.guild.name}`)
               }
 
               const messageIdHashtable = existingUsers.reduce((acc, user) => {
@@ -186,7 +186,7 @@ module.exports = {
               })
 
               if (existingUserIds.length > 0) {
-                console.log(`Updated ${existingUserIds.length} users`)
+                console.log(`Updated ${existingUserIds.length} users for ${interaction.guild.name}`)
                 return User.updateMany(
                   { userId: { $in: existingUserIds } },
                   { $set: { 

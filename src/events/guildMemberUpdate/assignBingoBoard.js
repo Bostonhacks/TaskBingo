@@ -49,7 +49,7 @@ module.exports = async (oldMember, newMember, client) => {
     const config = loadData(configPath)
 
     if (!config[newMember.guild.id]) {
-        console.log("auto assign set to false")
+        console.log(`auto assign set to false for ${newMember.guild.name}`)
         return
     }
 
@@ -76,7 +76,7 @@ module.exports = async (oldMember, newMember, client) => {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
 
-                                newMember.send(`Welcome to BostonHacks 2024 ${newMember.user}! Here's your bingo board:`);
+                                newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:`);
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
                                 const bingoMessage = await newMember.send({embeds: [tableEmbed]})
 
@@ -98,7 +98,7 @@ module.exports = async (oldMember, newMember, client) => {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
 
-                                newMember.send(`Welcome to BostonHacks 2024 ${newMember.user}! Here's your bingo board:`);
+                                newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:`);
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
                                 const bingoMessage = await newMember.send({embeds: [tableEmbed]})
 

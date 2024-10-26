@@ -45,7 +45,7 @@ module.exports = {
                 await interaction.deferReply();
 
                 const connection = await getDatabaseConnection(interaction.guild.id);
-                const Bingo = getBingoCardModel(connection)
+                const Bingo = await getBingoCardModel(connection)
 
                 const query = {
                     name: interaction.options.get('name').value

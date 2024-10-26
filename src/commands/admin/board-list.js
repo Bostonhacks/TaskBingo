@@ -14,7 +14,7 @@ module.exports = {
         await interaction.deferReply();
 
         const connection = await getDatabaseConnection(interaction.guild.id);
-        const Bingo = getBingoCardModel(connection)
+        const Bingo = await getBingoCardModel(connection)
   
         let allBingos = await Bingo.find();
         if (allBingos && allBingos.length > 0) {

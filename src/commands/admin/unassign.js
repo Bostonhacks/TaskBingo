@@ -19,8 +19,8 @@ module.exports = {
       await interaction.deferReply();
 
       const connection = await getDatabaseConnection(interaction.guild.id);
-      const Bingo = getBingoCardModel(connection)
-      const Permission = getPermissionModel(connection)
+      const Bingo = await getBingoCardModel(connection)
+      const Permission = await getPermissionModel(connection)
       
       const query = {
         name: interaction.options.get('board-name').value

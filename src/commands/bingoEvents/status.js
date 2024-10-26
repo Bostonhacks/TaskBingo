@@ -94,7 +94,7 @@ module.exports = {
       await interaction.deferReply();
 
       const connection = await getDatabaseConnection(interaction.guild.id);
-      const User = getUserModel(connection)
+      const User = await getUserModel(connection)
 
       const query = {
         userId: interaction.options.get('user').user.id

@@ -109,7 +109,7 @@ module.exports = {
       try {
 
         const connection = await getDatabaseConnection(interaction.guild.id);
-        const User = getUserModel(connection)
+        const User = await getUserModel(connection)
 
         const query = {
           userId: {$in: userIds}
