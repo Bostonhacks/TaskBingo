@@ -16,6 +16,10 @@ const user = new Schema({
   messageId: {
     type: String,
     required: true
+  },
+  collectedItems: {
+    type: [String],
+    required: false
   }
 });
 

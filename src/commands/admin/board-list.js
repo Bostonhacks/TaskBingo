@@ -3,7 +3,6 @@ const {getDatabaseConnection} = require('../../dbConnectionManager');
 const getBingoCardModel = require('../../models/Bingo');
 
 module.exports = {
-
     run: async ({interaction, client, handler}) => {
       if (!interaction.inGuild()) {
         interaction.reply('You can only run this command inside a server.');
@@ -32,7 +31,7 @@ module.exports = {
     },
 
     data: {
-      name: 'list',
+      name: 'board-list',
       description: 'Get a list of all bingo boards and their sizes',
       permissionsRequired: [PermissionFlagsBits.Administrator]
     }

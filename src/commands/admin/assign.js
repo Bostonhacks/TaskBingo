@@ -157,6 +157,7 @@ module.exports = {
               .map(async id => {
                 const member = memberHashtable[id]
                 member.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:`);
+                member.send(`3 Bingos = Hat | 6 Bingos = Shirt | 12 Bingos = Auto Admission (4 teams/20 hackers)`);
                 const bingoMessage = await member.send({embeds: [tableEmbed]})
                 return {
                   userId: id,  
