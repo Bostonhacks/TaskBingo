@@ -76,8 +76,7 @@ module.exports = async (oldMember, newMember, client) => {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
 
-                                newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:`);
-                                newMember.send(`3 Bingos = Hat | 6 Bingos = Shirt | 12 Bingos = Auto Admission (4 teams/20 hackers)`);
+                                newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
                                 const bingoMessage = await newMember.send({embeds: [tableEmbed]})
 
@@ -99,8 +98,7 @@ module.exports = async (oldMember, newMember, client) => {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
 
-                                newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:`);
-                                newMember.send(`3 Bingos = Hat | 6 Bingos = Shirt | 12 Bingos = Auto Admission (4 teams/20 hackers)`);
+                                newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
                                 const bingoMessage = await newMember.send({embeds: [tableEmbed]})
 

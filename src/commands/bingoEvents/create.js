@@ -11,16 +11,19 @@ module.exports = {
           name: 'name',
           description: 'the name of the bingo board',
           type: ApplicationCommandOptionType.String,
+          required: true
         },
         {
           name: 'image',
           description: 'the url of the bingo board',
           type: ApplicationCommandOptionType.String,
+          required: true
         },
         {
           name: 'grid-size',
           description: 'The size of the grid n (n x n), where n is odd',
           type: ApplicationCommandOptionType.Number,
+          required: true
         },
       ], 
       permissionsRequired: [PermissionFlagsBits.Administrator],
