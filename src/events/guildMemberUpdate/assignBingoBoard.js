@@ -77,7 +77,18 @@ module.exports = async (oldMember, newMember, client) => {
                             if (bingo) {
 
                                 try {
-                                    newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                    newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                    const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
+                                    const bingoMessage = await newMember.send({embeds: [tableEmbed]})
+
+                                    user = new User({
+                                        userId: newMember.user.id,
+                                        card: createBooleanArray(perms.gridSize),
+                                        cardName: perms.boardName,
+                                        messageId: bingoMessage.id
+                                    });
+
+                                await user.save();
                                 } catch (error) {
                                     if (error.code === 50007) {
                                       console.error("Cannot send messages to this user. They might have DMs disabled or have blocked the bot.");
@@ -87,17 +98,6 @@ module.exports = async (oldMember, newMember, client) => {
                                         console.error("An unexpected error occurred:", error);
                                     }
                                 }
-                                const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
-                                const bingoMessage = await newMember.send({embeds: [tableEmbed]})
-
-                                user = new User({
-                                    userId: newMember.user.id,
-                                    card: createBooleanArray(perms.gridSize),
-                                    cardName: perms.boardName,
-                                    messageId: bingoMessage.id
-                                });
-
-                                await user.save();
                             }
                         } catch (error) {
                             console.log(error)
@@ -109,7 +109,7 @@ module.exports = async (oldMember, newMember, client) => {
                             if (bingo) {
 
                                 try {
-                                    newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                    newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
                                 } catch (error) {
                                     if (error.code === 50007) {
                                       console.error("Cannot send messages to this user. They might have DMs disabled or have blocked the bot.");
@@ -117,6 +117,7 @@ module.exports = async (oldMember, newMember, client) => {
                                       return 
                                     } else {
                                         console.error("An unexpected error occurred:", error);
+                                        return
                                     }
                                 }
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
@@ -132,7 +133,7 @@ module.exports = async (oldMember, newMember, client) => {
                             console.log(error)
                         }
                     }
-                    
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
                 } catch (error) {
                     console.error(`Could not send DM to ${newMember.user}:`, error);
                 }

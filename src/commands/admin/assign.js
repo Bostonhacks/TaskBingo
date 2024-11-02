@@ -157,22 +157,24 @@ module.exports = {
               .map(async id => {
                 const member = memberHashtable[id]
                 try {
-                  member.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                  await member.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                    const bingoMessage = await member.send({embeds: [tableEmbed]})
+                    console.log(`sent to ${member.user}`)
+                    return {
+                      userId: id,  
+                      cardName: bingo.name,  // Default values for new users
+                      messageId: bingoMessage.id,
+                      card: createBooleanArray(bingo.gridSize)
+                    }
                 } catch (error) {
-                  if (error.code === 50007) {
-                    console.error("Cannot send messages to this user. They might have DMs disabled or have blocked the bot.");
-                    // Optionally, send a message to a server channel to notify about the issue
-                    return 
-                } else {
-                    console.error("An unexpected error occurred:", error);
-                }
-                }
-                const bingoMessage = await member.send({embeds: [tableEmbed]})
-                return {
-                  userId: id,  
-                  cardName: bingo.name,  // Default values for new users
-                  messageId: bingoMessage.id,
-                  card: createBooleanArray(bingo.gridSize)
+                    console.log(error)
+                  console.log(`Can't send to this ${member.user.username}`)
+                    return {
+                      userId: id,  
+                      cardName: bingo.name,  // Default values for new users
+                      messageId: "123",
+                      card: createBooleanArray(bingo.gridSize)
+                    }
                 }
               }));
               // Insert new users if needed
@@ -205,6 +207,7 @@ module.exports = {
                   } }
                 );
               }
+              await new Promise((resolve) => setTimeout(resolve, 1000));
             })
 
         }

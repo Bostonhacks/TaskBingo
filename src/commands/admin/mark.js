@@ -101,37 +101,41 @@ module.exports = {
   
         let user = await User.findOne(query);
 
-        if (interaction.options.get('cell-number').value > user.card.length ** 2) {
+        if (interaction.options.get('cell-numbers').value > user.card.length ** 2) {
           interaction.reply('Invalid cell number');
           return
         }
 
         await interaction.deferReply();
+
+        let cellNumbers = interaction.options.get('cell-numbers').split(',').map(num => Number(num.trim()));
   
         if (!user) {
             interaction.editReply(`${interaction.options.get('user').user} bingo board not set up.`);
             return;
         } else {
-            const { rowIndex, colIndex }  = calculateRowAndColumn(user.card.length, interaction.options.get('cell-number').value - 1)
+          cellNumbers.map((num) => {
+            const { rowIndex, colIndex }  = calculateRowAndColumn(user.card.length, num - 1)
 
             user.card[rowIndex][colIndex] = true
 
-            await user.save();
+          })
+          await user.save();
 
-            const userObj = interaction.options.get('user').user
-            const dmChannel = await userObj.createDM();
+          const userObj = interaction.options.get('user').user
+          const dmChannel = await userObj.createDM();
 
-            const message = await dmChannel.messages.fetch(user.messageId);
-            const embed = message.embeds[0]
-            const image = embed.image.url;
-            const bingoCount = calculateBingos(user.card)
-            let updatedEmbed = createTableEmbed(user.card, bingoCount, image)
-            await message.edit({ embeds: [updatedEmbed] })
+          const message = await dmChannel.messages.fetch(user.messageId);
+          const embed = message.embeds[0]
+          const image = embed.image.url;
+          const bingoCount = calculateBingos(user.card)
+          let updatedEmbed = createTableEmbed(user.card, bingoCount, image)
+          await message.edit({ embeds: [updatedEmbed] })
 
-            const notif = await dmChannel.send(`${userObj}`)
-            notif.delete()
-    
-            interaction.editReply(`${interaction.options.get('user').user} has completed task ${interaction.options.get('cell-number').value} (${bingoCount}/${user.card.length*2+2}).`);
+          const notif = await dmChannel.send(`${userObj}`)
+          notif.delete()
+  
+          interaction.editReply(`${interaction.options.get('user').user} has completed task(s) cellNumbers (${bingoCount}/${user.card.length*2+2} bingos).`);
 
         }
   
@@ -152,9 +156,9 @@ module.exports = {
           required: true,
         },
         {
-          name: 'cell-number',
-          description: 'The cell number to mark',
-          type: ApplicationCommandOptionType.Number,
+          name: 'cell-numbers',
+          description: 'The cell numbers to mark',
+          type: ApplicationCommandOptionType.String,
           required: true,
         }
       ],
