@@ -76,7 +76,17 @@ module.exports = async (oldMember, newMember, client) => {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
 
-                                newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                try {
+                                    newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                } catch (error) {
+                                    if (error.code === 50007) {
+                                      console.error("Cannot send messages to this user. They might have DMs disabled or have blocked the bot.");
+                                      // Optionally, send a message to a server channel to notify about the issue
+                                      return 
+                                    } else {
+                                        console.error("An unexpected error occurred:", error);
+                                    }
+                                }
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
                                 const bingoMessage = await newMember.send({embeds: [tableEmbed]})
 
@@ -98,7 +108,17 @@ module.exports = async (oldMember, newMember, client) => {
                             let bingo = await Bingo.findOne({name: perms.boardName})
                             if (bingo) {
 
-                                newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                try {
+                                    newMember.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                } catch (error) {
+                                    if (error.code === 50007) {
+                                      console.error("Cannot send messages to this user. They might have DMs disabled or have blocked the bot.");
+                                      // Optionally, send a message to a server channel to notify about the issue
+                                      return 
+                                    } else {
+                                        console.error("An unexpected error occurred:", error);
+                                    }
+                                }
                                 const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
                                 const bingoMessage = await newMember.send({embeds: [tableEmbed]})
 

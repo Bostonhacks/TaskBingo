@@ -156,7 +156,17 @@ module.exports = {
               .filter(id => !existingUserIds.includes(id))  // Find non-existing users
               .map(async id => {
                 const member = memberHashtable[id]
-                member.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                try {
+                  member.send(`Welcome to ${interaction.guild.name} ${member.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                } catch (error) {
+                  if (error.code === 50007) {
+                    console.error("Cannot send messages to this user. They might have DMs disabled or have blocked the bot.");
+                    // Optionally, send a message to a server channel to notify about the issue
+                    return 
+                } else {
+                    console.error("An unexpected error occurred:", error);
+                }
+                }
                 const bingoMessage = await member.send({embeds: [tableEmbed]})
                 return {
                   userId: id,  
