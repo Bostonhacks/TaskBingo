@@ -30,9 +30,10 @@ The bot can be installed with this [link](https://discord.com/oauth2/authorize?c
 - create (name, image, grid-size)
     - Creates a bingo board with *name*, a cooresponding bingo image *image*, and a grid size *grid-size*. *grid-size* must be an odd integer that cooresponds with an nxn table.
     - Requires Administrator privilege
-- mark (user, cell-number)
-    - Completes a user *user*'s assigned bingo board task at position *cell-number*
+- mark (user, cell-numbers)
+    - Completes a user *user*'s assigned bingo board task at position(s) *cell-numbers*
     - cell-number starts at 1 and counts row first left to right
+    > - Multiple cell numbers (separated by commas) can be entered to mark multiple cells simultainously 
     - Requires Administrator privilege
 - mark-many (users, cell-number)
     - Complete users *users*' assigned bingo board task at position *cell-number*
