@@ -102,13 +102,13 @@ module.exports = {
         let user = await User.findOne(query);
 
         if (interaction.options.get('cell-numbers').value > user.card.length ** 2) {
-          interaction.reply('Invalid cell number');
+          interaction.reply('Invalid cell number(s)');
           return
         }
 
         await interaction.deferReply();
-
-        let cellNumbers = interaction.options.get('cell-numbers').split(',').map(num => Number(num.trim()));
+        console.log(interaction.options.get('cell-numbers').value)
+        let cellNumbers = interaction.options.get('cell-numbers').value.split(',').map(num => Number(num.trim()));
   
         if (!user) {
             interaction.editReply(`${interaction.options.get('user').user} bingo board not set up.`);
@@ -135,7 +135,7 @@ module.exports = {
           const notif = await dmChannel.send(`${userObj}`)
           notif.delete()
   
-          interaction.editReply(`${interaction.options.get('user').user} has completed task(s) cellNumbers (${bingoCount}/${user.card.length*2+2} bingos).`);
+          interaction.editReply(`${interaction.options.get('user').user} has completed task(s) ${cellNumbers} (${bingoCount}/${user.card.length*2+2} bingos).`);
 
         }
   
@@ -157,8 +157,8 @@ module.exports = {
         },
         {
           name: 'cell-numbers',
-          description: 'The cell numbers to mark',
-          type: ApplicationCommandOptionType.String,
+          description: 'The cell numbers to mark (comma separated)',
+          type: ApplicationCommandOptionType.Number,
           required: true,
         }
       ],
