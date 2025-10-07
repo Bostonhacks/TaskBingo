@@ -77,7 +77,7 @@ module.exports = async (oldMember, newMember, client) => {
                             if (bingo) {
 
                                 try {
-                                    newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                    newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:\n3 Bingos = Shirt\n6 Bingos = Hat\n12 Bingos = Auto Admission (First 20 hackers)`);
                                     const tableEmbed = createTableEmbed(createBooleanArray(perms.gridSize), 0, bingo.image);
                                     const bingoMessage = await newMember.send({embeds: [tableEmbed]})
 
@@ -109,7 +109,7 @@ module.exports = async (oldMember, newMember, client) => {
                             if (bingo) {
 
                                 try {
-                                    newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:\n3 Bingos = Hat\n6 Bingos = Shirt\n12 Bingos = Auto Admission (First 20 hackers)`);
+                                    newMember.send(`Welcome to ${newMember.guild.name} ${newMember.user}! Here's your bingo board:\n3 Bingos = Shirt\n6 Bingos = Hat\n12 Bingos = Auto Admission (First 20 hackers)`);
                                 } catch (error) {
                                     if (error.code === 50007) {
                                       console.error("Cannot send messages to this user. They might have DMs disabled or have blocked the bot.");
